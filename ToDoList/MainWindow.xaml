@@ -29,7 +29,9 @@
             </Grid>
 
             <ListBox x:Name="ListItemTopics" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" 
-                     HorizontalAlignment="Center" ScrollViewer.CanContentScroll="False">
+                     HorizontalAlignment="Center" ScrollViewer.CanContentScroll="False"
+                     ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                     ItemsSource="{Binding CollectionsOfLists}">
                 <ListBoxItem Style="{StaticResource ListBoxItemForListItems}">
                     <Button x:Name="ButtonStyleInListBoxItem" Style="{DynamicResource ButtonElementDark}">
                         <Grid>

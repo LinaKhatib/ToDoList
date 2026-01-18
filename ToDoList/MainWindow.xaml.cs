@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ToDoList.Model.Functions;
+using ToDoList.ViewModel;
 
 namespace ToDoList
 {
@@ -20,6 +21,7 @@ namespace ToDoList
         public MainWindow()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
         }
 
         private void AddItemButton2_Click(object sender, RoutedEventArgs e)
