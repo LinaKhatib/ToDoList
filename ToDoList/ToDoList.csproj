@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="View\Images\Back.png" />
+    <None Remove="View\Images\Menu.png" />
+    <None Remove="View\Images\Plus.png" />
+    <None Remove="View\Images\SeparatorDark.png" />
+    <None Remove="View\Images\SeparatorLight.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="View\Images\Back.png" />
+    <Resource Include="View\Images\Menu.png" />
+    <Resource Include="View\Images\Plus.png" />
+    <Resource Include="View\Images\SeparatorDark.png" />
+    <Resource Include="View\Images\SeparatorLight.png" />
+  </ItemGroup>
+
+</Project>
