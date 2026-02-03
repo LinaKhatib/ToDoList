@@ -1,34 +1,24 @@
-﻿using System.Text;
+﻿using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ToDoList.Model.Functions;
+using ToDoList.Model.Data.DatabaseProvider;
+using ToDoList.Model.Data.POCO;
+using ToDoList.Model.Data.Repositories;
 using ToDoList.ViewModel;
 
 namespace ToDoList
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
-        }
 
-        private void AddItemButton2_Click(object sender, RoutedEventArgs e)
-        {
-            var newItem = new AddingANewList();
-
-            newItem.AddItemToWindow(this);
+            var context = new ApplicationContex();
+            var repo = new Repository<ListOfItems>(context);
+            this.DataContext = new MainWindowViewModel(repo);
         }
+        
     }
 }

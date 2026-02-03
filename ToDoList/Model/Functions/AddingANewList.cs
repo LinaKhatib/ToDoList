@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using ToDoList.Model.Data;
+using ToDoList.Model.Data.POCO;
 
 namespace ToDoList.Model.Functions
 {
-    class AddingANewList
+    class AddingANewList // добавление нового элемента в список (не по паттерну MVVM)
     {
         public void AddItemToWindow(MainWindow window)
         {
@@ -25,7 +22,7 @@ namespace ToDoList.Model.Functions
 
             window.ListItemTopics.Items.Insert(window.ListItemTopics.Items.Count - 1, newItem);
 
-            CollectionOfLists list1 = new CollectionOfLists { CollectionName = "collection1", NumberPossition = 1 };
+            Element list1 = new Element { CollectionName = "collection1", Number = 1 };
         }
 
     }
