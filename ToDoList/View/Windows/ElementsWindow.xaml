@@ -1,20 +1,26 @@
-﻿<Window x:Class="ToDoList.MainWindow"
+﻿<Window x:Class="ToDoList.View.Windows.ElementsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:view="clr-namespace:ToDoList.View"
+        xmlns:local="clr-namespace:ToDoList.View.Windows"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:selectors="clr-namespace:ToDoList.View.StateSelection"
         xmlns:behaviors="clr-namespace:ToDoList.View.Behaviors"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="767" Width="1189" AllowsTransparency="True" Background="Transparent"  WindowStyle="None">
+        Title="ElementsWindow" Height="767" Width="1189" AllowsTransparency="True" Background="Transparent"  WindowStyle="None">
 
     <Window.Resources>
-        <view:ChoosingTheElementStyle x:Key="MyStyleSelector" 
+        <selectors:ChoosingTheElementStyle x:Key="MyStyleSelector" 
         OddButtonStyle="{StaticResource ButtonElementDark}"
-        EvenButtonStyle="{StaticResource ButtonElementLight}" 
-        SpecialButtonStyle="{StaticResource ButtonPlus}" />
+        EvenButtonStyle="{StaticResource ButtonElementLight}"/>
+
+        <selectors:ChoosingTheDataTemplate x:Key="MyDataTemplateSelector"
+        OddButtonDataTemplate="{StaticResource DataTemplateDarkElement}"
+        EvenButtonDataTemplate="{StaticResource DataTemplateLightElement}"/>
     </Window.Resources>
+
 
     <Border Background="#FFFFEBEB" CornerRadius="20">
         <Grid>
@@ -29,9 +35,13 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource ButtonControlAndNavigation}">
+                <Button Style="{StaticResource ButtonControlAndNavigation}" 
+                        Command="{Binding GoBackCommand}">
                     <Image Source="/View/Images/Back.png"/>
                 </Button>
+                <TextBox Grid.Column="1" Text="{Binding ParentList.CollectionName2, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource TextBox1}"
+                         HorizontalAlignment="Center" Foreground="#966B6B"/>
                 <Button Grid.Column="2" Style="{StaticResource ButtonControlAndNavigation}">
                     <Image Source="/View/Images/Menu.png"/>
                 </Button>
@@ -39,62 +49,38 @@
 
             <ScrollViewer  Grid.Row="1" VerticalScrollBarVisibility="Hidden"
                            CanContentScroll="False">
-                <StackPanel>
+                <StackPanel Margin="0,0,0,200">
                     <ListBox x:Name="ListItemTopics" Background="Transparent" BorderBrush="Transparent"  HorizontalAlignment="Center" 
                              ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.IsDeferredScrollingEnabled="False"
-                             ItemsSource="{Binding CollectionsOfLists}"
+                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                             ItemsSource="{Binding Items}"
+                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
                              ItemContainerStyleSelector="{StaticResource MyStyleSelector}">
-                        
+
+                        <i:Interaction.Behaviors>
+                            <behaviors:IgnoreMouseWheelBehavior/>
+                        </i:Interaction.Behaviors>
+                         
+
+                    </ListBox>
+
+                    <ListBox x:Name="ElementsPlas" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" 
+                            HorizontalAlignment="Center">
+
                         <i:Interaction.Behaviors>
                             <behaviors:IgnoreMouseWheelBehavior/>
                             <behaviors:AutoScrollToBottomBehavior/>
                         </i:Interaction.Behaviors>
-                        
-                    </ListBox>
-
-                    <ListBox x:Name="ListItemPlas" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" 
-                            HorizontalAlignment="Center">
 
                         <ListBoxItem Style="{StaticResource ListBoxItemForListItems}">
                             <Button Style="{StaticResource ButtonPlus}" Command="{Binding AddCommand}">
                                 <Image Source="/View/Images/Plus.png"/>
                             </Button>
                         </ListBoxItem>
-                        
+
                     </ListBox>
                 </StackPanel>
             </ScrollViewer>
-                
-
-            
-
-
-
-            <!--
-                <ListBoxItem Style="{StaticResource ListBoxItemForListItems}">
-                    <Button x:Name="ButtonStyleInListBoxItem" Style="{DynamicResource ButtonElementDark}">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="текст" VerticalAlignment="Center" Margin="40,0,40,10"/>
-                            <TextBlock Grid.Column="1" VerticalAlignment="Center">
-                                <Image Source="/View/Images/SeparatorDark.png"/>
-                            </TextBlock>
-                            <TextBlock Grid.Column="2" Text="10/01/2026" VerticalAlignment="Center" />
-                        </Grid>
-                    </Button>
-                </ListBoxItem>
-                <ListBoxItem Style="{StaticResource ListBoxItemForListItems}">
-                    <Button x:Name="AddItemButton2" Style="{StaticResource ButtonPlus}" 
-                            Click="AddItemButton2_Click">
-                        <Image Source="/View/Images/Plus.png"/>
-                    </Button>
-                </ListBoxItem>
-                -->
-
         </Grid>
     </Border>
 </Window>

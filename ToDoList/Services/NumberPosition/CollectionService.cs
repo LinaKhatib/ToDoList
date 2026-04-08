@@ -1,6 +1,4 @@
-﻿using ToDoList.ViewModel;
-
-namespace ToDoList.Services
+﻿namespace ToDoList.Services.NumberPosition
 {
     internal static class CollectionService // ститический класс (потому что не хнанит никакого состояния,
                                             // выполняет всего 1 функцию и освобождает от создания объектов)

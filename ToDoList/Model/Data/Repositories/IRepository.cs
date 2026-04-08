@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
+using System.Windows.Controls;
 
 namespace ToDoList.Model.Data.Repositories
 {
-    internal interface IRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         Task<IEnumerable<T>> GetAllAsync();
         Task<T?> GetByIdAsync(int id);
@@ -14,5 +15,6 @@ namespace ToDoList.Model.Data.Repositories
         void Delete(T entity);
         Task SaveAsync();
         Task LoadEntryAsync<TProperty>(T entity, Expression<Func<T, IEnumerable<TProperty>>> navigationProperty) where TProperty : class;
+
     }
 }

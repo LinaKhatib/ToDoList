@@ -11,9 +11,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
 
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      Margin="40,0,0,0"/> 
+                        <ContentPresenter Margin="40,0,0,0"/> 
                         
                     </Border>
                     
@@ -32,6 +30,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="#FFF4F4"/>
         <Setter Property="Height" Value="100"/>

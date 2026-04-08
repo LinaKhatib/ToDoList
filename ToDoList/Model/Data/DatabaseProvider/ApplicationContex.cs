@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using ToDoList.Model.Data.DatabaseProvider.Configurations;
 using ToDoList.Model.Data.POCO;
 
@@ -7,11 +8,12 @@ namespace ToDoList.Model.Data.DatabaseProvider
 {
     class ApplicationContex : DbContext  
     {
-        public DbSet<Element> ListsOfItems { get; set; } = null!;
-        public DbSet<ListOfItems> Elements { get; set; } = null!;
+        public DbSet<Element> Elements { get; set; } = null!;
+        public DbSet<ListOfItems> ListsOfItems { get; set; } = null!;
 
         public ApplicationContex()
         {
+
             Database.EnsureDeleted();
             Database.EnsureCreated();
         }

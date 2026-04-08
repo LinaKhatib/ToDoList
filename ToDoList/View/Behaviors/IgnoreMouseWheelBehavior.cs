@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ToDoList.View.Behaviors
 {
@@ -30,7 +31,8 @@ namespace ToDoList.View.Behaviors
                     RoutedEvent = UIElement.MouseWheelEvent,
                     Source = sender
                 };
-                var parent = ((Control)sender).Parent as UIElement;
+
+                var parent = VisualTreeHelper.GetParent(AssociatedObject) as UIElement;
                 parent?.RaiseEvent(eventArg);
             }
         }

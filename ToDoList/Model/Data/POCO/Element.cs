@@ -1,13 +1,22 @@
-﻿using ToDoList.ViewModel;
+﻿using ToDoList.Services.NumberPosition;
+using ToDoList.ViewModel;
 
 namespace ToDoList.Model.Data.POCO
 {
-    class Element : INumberPossition
+    class Element : BaseViewModel, INumberPossition, IIdentifiable
     {
         public Guid Id { get; set; }
-        public string CollectionName { get; set; } = string.Empty;
         public int Number { get; set; }
-        public string? ThingName { get; set; } = string.Empty;
+        private string _thingName;
+        public string ThingName
+        {
+            get => _thingName;
+            set
+            {
+                _thingName = value;
+                OnPropertyChanged(nameof(ThingName));
+            }
+        }
         public bool IsDone { get; set; } = false;
         public ListOfItems CollectionOfLists { get; set; } = null!;
         public Guid CollectionOfListsId { get; set; }

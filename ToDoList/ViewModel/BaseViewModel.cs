@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace ToDoList.ViewModel
 {
-    class BaseViewModel : INotifyPropertyChanged
+    class  BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

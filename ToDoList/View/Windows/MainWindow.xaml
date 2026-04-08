@@ -1,0 +1,86 @@
+﻿<Window x:Class="ToDoList.View.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:selectors="clr-namespace:ToDoList.View.StateSelection"
+        xmlns:behaviors="clr-namespace:ToDoList.View.Behaviors"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="767" Width="1189" AllowsTransparency="True" Background="Transparent"  WindowStyle="None">
+
+    <Window.Resources>
+        <selectors:ChoosingTheElementStyle x:Key="MyStyleSelector" 
+        OddButtonStyle="{StaticResource ButtonElementDark}"
+        EvenButtonStyle="{StaticResource ButtonElementLight}"/>
+
+        <selectors:ChoosingTheDataTemplate x:Key="MyDataTemplateSelector"
+        OddButtonDataTemplate="{StaticResource DataTemplateDarkListOfItems}"
+        EvenButtonDataTemplate="{StaticResource DataTemplateLightListOfItems}"/>
+    </Window.Resources>
+
+    <Border Background="#FFFFEBEB" CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Button Style="{StaticResource ButtonControlAndNavigation}" 
+                        Command="{Binding ExitCommand}">
+                    <Image Source="/View/Images/Back.png"/>
+                </Button>
+                <Button Grid.Column="2" Style="{StaticResource ButtonControlAndNavigation}">
+                    <Image Source="/View/Images/Menu.png"/>
+                </Button>
+            </Grid>
+
+            <ScrollViewer  Grid.Row="1" VerticalScrollBarVisibility="Hidden"
+                           CanContentScroll="False">
+                <StackPanel Margin="0,0,0,200">
+                    <ListBox x:Name="ListItemTopics" Background="Transparent" BorderBrush="Transparent"  HorizontalAlignment="Center" 
+                             ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.CanContentScroll="False" ScrollViewer.IsDeferredScrollingEnabled="False"
+                             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                             ItemsSource="{Binding Items}"
+                             ItemTemplateSelector="{StaticResource MyDataTemplateSelector}"
+                             ItemContainerStyleSelector="{StaticResource MyStyleSelector}">
+                        
+                        <i:Interaction.Behaviors>
+                            <behaviors:IgnoreMouseWheelBehavior/>
+                        </i:Interaction.Behaviors>
+
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding OpenElementCommand}" CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource AncestorType=ListBox}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+
+                    </ListBox>
+
+                    <ListBox x:Name="ListItemPlas" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" 
+                            HorizontalAlignment="Center">
+
+                        <i:Interaction.Behaviors>
+                            <behaviors:IgnoreMouseWheelBehavior/>
+                            <behaviors:AutoScrollToBottomBehavior/>
+                        </i:Interaction.Behaviors>
+
+                        <ListBoxItem Style="{StaticResource ListBoxItemForListItems}">
+                            <Button Style="{StaticResource ButtonPlus}" Command="{Binding AddCommand}">
+                                <Image Source="/View/Images/Plus.png"/>
+                            </Button>
+                        </ListBoxItem>
+
+                    </ListBox>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</Window>

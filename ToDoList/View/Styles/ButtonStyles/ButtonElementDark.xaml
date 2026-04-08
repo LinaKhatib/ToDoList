@@ -11,9 +11,8 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="True">
 
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      Margin="40,0,0,0"/>
+
+                        <ContentPresenter Margin="40,0,0,0"/>
 
                     </Border>
                     
@@ -24,7 +23,7 @@
                             <Setter Property="BorderThickness" Value="3"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#DAB0B0"/>
+                            <Setter Property="Background" Value="#E9C2C2"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -32,6 +31,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="Background" Value="#FFE0E0"/>
         <Setter Property="Height" Value="100"/>
