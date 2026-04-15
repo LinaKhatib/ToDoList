@@ -6,6 +6,7 @@ using ToDoList.Model.Data.POCO;
 using ToDoList.Model.Data.Repositories;
 using ToDoList.Services.Navigation;
 using ToDoList.Services.NumberPosition;
+using ToDoList.Services.ParentNameUpdate;
 
 
 namespace ToDoList.ViewModel.WindowViewModels
@@ -54,7 +55,6 @@ namespace ToDoList.ViewModel.WindowViewModels
                 var newItem = new Element();
                 newItem.Id = Guid.NewGuid();
                 newItem.CollectionOfListsId = _parentId;
-                newItem.ThingName = "Тестовая задача";
 
                 await _repository.AddAsync(newItem);
                 await _repository.SaveAsync();
@@ -65,7 +65,7 @@ namespace ToDoList.ViewModel.WindowViewModels
 
                 if (Items.Count == 1)
                 {
-                    UpdateParentNameLogic();
+                    ParentName.UpdateParentNameLogic(Items, ParentList);
                 }
             }
             catch (Exception ex)
@@ -86,29 +86,11 @@ namespace ToDoList.ViewModel.WindowViewModels
             _navigationService.GoBackToMain();
         }
 
-        private void OnParentPropertyChanged(object sender, PropertyChangedEventArgs e)
+        internal void OnParentPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(ParentList.CollectionName2))
             {
-                UpdateParentNameLogic();
-            }
-        }
-
-        private void UpdateParentNameLogic()
-        {
-            var firstItem = Items.FirstOrDefault();
-
-            if (ParentList.CollectionName2 != ParentList.Date.ToString() && ParentList.CollectionName2 != string.Empty)
-            {
-                ParentList.CollectionName = ParentList.CollectionName2;
-            }
-            else if (firstItem != null && firstItem.ThingName != string.Empty)
-            {
-                ParentList.CollectionName = firstItem.ThingName;
-            }
-            else 
-            {
-                ParentList.CollectionName = "Collection";
+                ParentName.UpdateParentNameLogic(Items, ParentList);
             }
         }
         protected override void OnSelectedItemPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -118,7 +100,7 @@ namespace ToDoList.ViewModel.WindowViewModels
             if (e.PropertyName == nameof(Element.ThingName))
             {
                 _ = UpdateItemAsync();
-                UpdateParentNameLogic();
+                ParentName.UpdateParentNameLogic(Items, ParentList);
             }
         }
     }

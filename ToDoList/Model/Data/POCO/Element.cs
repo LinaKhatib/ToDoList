@@ -7,7 +7,7 @@ namespace ToDoList.Model.Data.POCO
     {
         public Guid Id { get; set; }
         public int Number { get; set; }
-        private string _thingName;
+        private string _thingName = string.Empty;
         public string ThingName
         {
             get => _thingName;
