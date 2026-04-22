@@ -8,7 +8,7 @@ using ToDoList.Services.Navigation;
 
 namespace ToDoList.ViewModel.WindowViewModels
 {
-    class MainWindowViewModel : AbstractViewModel<ListOfItems>
+    internal class MainWindowViewModel : AbstractViewModel<ListOfItems>
     {
         public MainWindowViewModel(IRepository<ListOfItems> repoListOfItems, INavigationService navigationService) 
             : base(repoListOfItems, navigationService)

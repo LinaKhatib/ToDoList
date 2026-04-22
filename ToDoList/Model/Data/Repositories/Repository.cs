@@ -7,58 +7,71 @@ namespace ToDoList.Model.Data.Repositories
 {
     internal class Repository<T> : IRepository<T> where T : class
     {
+        private readonly DbContextOptions<ApplicationContex> _options;
 
-        protected readonly ApplicationContex _context;
-        protected readonly DbSet<T> _dbSet;
-
-
-        public Repository(ApplicationContex context)
+        public Repository(DbContextOptions<ApplicationContex> options)
         {
-            _context = context;
-            _dbSet = context.Set<T>();
+            _options = options;
         }
 
+        private ApplicationContex CreateContext() => new ApplicationContex(_options);
 
         public async virtual Task<IEnumerable<T>> GetAllAsync()
         {
-            return await _dbSet.ToListAsync();
-        }
-
-
-
-        public async Task<T?> GetByIdAsync(int id)
-        {
-            return await _dbSet.FindAsync(id);
-        }
-        public async Task AddAsync(T entity)
-        {
-            await _dbSet.AddAsync(entity);
-        }
-
-        public void Update(T entity)
-        {
-            var entry = _context.Entry(entity);
-            if (entry.State == EntityState.Detached)
+            using (var context = CreateContext()) 
             {
-                _dbSet.Update(entity);
+                return await context.Set<T>().AsNoTracking().ToListAsync();
+            } 
+        }
+
+        public async Task<T?> GetByIdAsync(Guid id)
+        {
+            using (var context = CreateContext())
+            {
+                return await context.Set<T>().FindAsync(id);
             }
         }
 
-        public void Delete(T entity)
+        public async Task AddAsync(T entity)
         {
-            _dbSet.Remove(entity);
+            using (var context = CreateContext())
+            {
+                await context.Set<T>().AddAsync(entity);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public async Task SaveAsync()
+        public async Task UpdateAsync(T entity)
         {
-            await _context.SaveChangesAsync();
+            using (var context = CreateContext())
+            {
+                context.Set<T>().Update(entity);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public async Task LoadEntryAsync<TProperty>(T entity, Expression<Func<T, IEnumerable<TProperty>>> navigationProperty)
-        where TProperty : class
+        public async Task DeleteAsync(T entity)
         {
-            await _context.Entry(entity).Collection(navigationProperty).LoadAsync();
+            using (var context = CreateContext())
+            {
+                context.Set<T>().Remove(entity);
+                await context.SaveChangesAsync();
+            }
         }
 
+        public async Task<T?> GetWithIncludesAsync(Guid id, params Expression<Func<T, object>>[] includes)
+        {
+            using(var context = CreateContext())
+            {
+                IQueryable<T> query = context.Set<T>();
+
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+
+                return await query.FirstOrDefaultAsync(e => EF.Property<Guid>(e, "Id") == id);
+            }
+        }
     }
 }

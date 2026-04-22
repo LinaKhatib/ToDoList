@@ -29,7 +29,6 @@ namespace ToDoList.ViewModel.WindowViewModels
             ParentList.PropertyChanged += OnParentPropertyChanged;
         }
 
-
         protected override async Task LoadDataAsync()
         {
             var allData = await _repository.GetAllAsync();
@@ -57,10 +56,8 @@ namespace ToDoList.ViewModel.WindowViewModels
                 newItem.CollectionOfListsId = _parentId;
 
                 await _repository.AddAsync(newItem);
-                await _repository.SaveAsync();
 
                 Items.Add(newItem);
-
                 SelectedItem = newItem;
 
                 if (Items.Count == 1)

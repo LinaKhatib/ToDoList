@@ -61,7 +61,7 @@ namespace ToDoList.ViewModel.WindowViewModels
 
         protected virtual async Task LoadDataAsync()
         {
-            var data = (await _repository.GetAllAsync()).OrderBy(x => x.Id).ToList();
+            var data = (await _repository.GetAllAsync()).OrderBy(x => x.Number).ToList();
             UpdateCollection(data);
             CollectionService.ReorderNumbers<T>(Items);
         }
@@ -79,24 +79,23 @@ namespace ToDoList.ViewModel.WindowViewModels
         {
             if (SelectedItem != null)
             {
-                _repository.Delete(SelectedItem);
+                await _repository.DeleteAsync(SelectedItem);
 
-                await _repository.SaveAsync();
+                Items.Remove(SelectedItem);
             }
         }
         
         protected virtual async Task UpdateItemAsync()
         {
-            await _dbSemaphore.WaitAsync();
-            try
+            if (SelectedItem != null)
             {
-                if (SelectedItem != null)
+                await _dbSemaphore.WaitAsync();
+                try
                 {
-                    _repository.Update(SelectedItem);
-                    await _repository.SaveAsync();
+                    await _repository.UpdateAsync(SelectedItem);
                 }
+                finally { _dbSemaphore.Release(); }
             }
-            finally { _dbSemaphore.Release(); }
         }
 
 
@@ -110,8 +109,10 @@ namespace ToDoList.ViewModel.WindowViewModels
 
             foreach (var newItem in newData)
             {
-                var existingItem = Items.FirstOrDefault(i => i.Id == newItem.Id);
-                Items.Add(newItem);
+                if (Items.All(i => i.Id != newItem.Id))
+                {
+                    Items.Add(newItem);
+                }
             }
         }
 

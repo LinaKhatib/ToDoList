@@ -12,9 +12,6 @@ using System.Windows.Shapes;
 
 namespace ToDoList.View.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для ElementsWindow.xaml
-    /// </summary>
     public partial class ElementsWindow : Window
     {
         public ElementsWindow()
