@@ -9,7 +9,7 @@ using ToDoList.Services.NumberPosition;
 
 namespace ToDoList.ViewModel.WindowViewModels
 {
-    internal abstract class AbstractViewModel<T> : BaseViewModel where T : class, IIdentifiable, INumberPossition, new()
+    internal abstract class AbstractViewModel<T> : BaseViewModel, IDisposable where T : class, IIdentifiable, INumberPossition, new()
     {
         protected readonly IRepository<T> _repository;
         protected readonly INavigationService _navigationService;
@@ -25,25 +25,16 @@ namespace ToDoList.ViewModel.WindowViewModels
             get => _selectedItem;
             set
             {
-                if (_selectedItem is INotifyPropertyChanged oldItem)
-                {
-                    oldItem.PropertyChanged -= OnSelectedItemPropertyChanged;
-                }
-
                 _selectedItem = value;
-
-                if (_selectedItem is INotifyPropertyChanged newItem)
-                {
-                    newItem.PropertyChanged += OnSelectedItemPropertyChanged;
-                }
-
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
 
+
         public ICommand AddCommand { get; }
         public ICommand RemoveCommand { get; }
         public ICommand UpdateCommand { get; }
+
 
         protected AbstractViewModel(IRepository<T> repository, INavigationService navigationService)
         {
@@ -52,11 +43,22 @@ namespace ToDoList.ViewModel.WindowViewModels
 
             AddCommand = new RelayCommand(async (obj) => await AddItemAsync());
             RemoveCommand = new RelayCommand(async (obj) => await RemoveItemAsync(), CanRemove);
-            UpdateCommand = new RelayCommand(async (obj) => await UpdateItemAsync(), CanUpdate);
+            UpdateCommand = new RelayCommand(async (obj) => await UpdateItemAsync(SelectedItem), CanUpdate);
 
             Items.CollectionChanged += ListsOfItems_CollectionChanged;
 
             _ = LoadDataAsync();
+        }
+
+
+        public virtual void Dispose()
+        {
+            Items.CollectionChanged -= ListsOfItems_CollectionChanged;
+
+            if (_selectedItem is INotifyPropertyChanged item)
+            {
+                item.PropertyChanged -= OnSelectedItemPropertyChanged;
+            }
         }
 
         protected virtual async Task LoadDataAsync()
@@ -85,17 +87,14 @@ namespace ToDoList.ViewModel.WindowViewModels
             }
         }
         
-        protected virtual async Task UpdateItemAsync()
+        protected virtual async Task UpdateItemAsync(T item)
         {
-            if (SelectedItem != null)
+            await _dbSemaphore.WaitAsync();
+            try
             {
-                await _dbSemaphore.WaitAsync();
-                try
-                {
-                    await _repository.UpdateAsync(SelectedItem);
-                }
-                finally { _dbSemaphore.Release(); }
+                await _repository.UpdateAsync(item);
             }
+            finally { _dbSemaphore.Release(); }
         }
 
 
@@ -129,11 +128,33 @@ namespace ToDoList.ViewModel.WindowViewModels
                     _isSorting = false;
                 }
             }
+
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    if (item is INotifyPropertyChanged npc)
+                        npc.PropertyChanged += OnSelectedItemPropertyChanged;
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+                    if (item is INotifyPropertyChanged npc)
+                        npc.PropertyChanged -= OnSelectedItemPropertyChanged;
+                }
+            }
         } 
 
         protected virtual async void OnSelectedItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            await UpdateItemAsync();
+            if (sender is T changedItem)
+            {
+                await UpdateItemAsync(changedItem);
+            }
+            
         }
 
     }

@@ -29,6 +29,15 @@ namespace ToDoList.ViewModel.WindowViewModels
             ParentList.PropertyChanged += OnParentPropertyChanged;
         }
 
+        public override void Dispose()
+        {
+            if (ParentList != null)
+            {
+                ParentList.PropertyChanged -= OnParentPropertyChanged;
+            }
+            base.Dispose();
+        }
+
         protected override async Task LoadDataAsync()
         {
             var allData = await _repository.GetAllAsync();
@@ -79,6 +88,7 @@ namespace ToDoList.ViewModel.WindowViewModels
 
         private void GoBackToMainOpenWindow()
         {
+            Dispose();
             _navigationService.GoBackToMain();
         }
 
