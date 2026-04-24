@@ -30,8 +30,8 @@ namespace ToDoList.ViewModel.WindowViewModels
                     oldItem.PropertyChanged -= OnSelectedItemPropertyChanged;
                 }
 
-
                 _selectedItem = value;
+
                 if (_selectedItem is INotifyPropertyChanged newItem)
                 {
                     newItem.PropertyChanged += OnSelectedItemPropertyChanged;
@@ -61,7 +61,7 @@ namespace ToDoList.ViewModel.WindowViewModels
 
         protected virtual async Task LoadDataAsync()
         {
-            var data = (await _repository.GetAllAsync()).OrderBy(x => x.Number).ToList();
+            var data = (await _repository.GetAllAsync()).OrderBy(x => x.Id).ToList();
             UpdateCollection(data);
             CollectionService.ReorderNumbers<T>(Items);
         }
@@ -101,18 +101,10 @@ namespace ToDoList.ViewModel.WindowViewModels
 
         protected void UpdateCollection(IEnumerable<T> newData)
         {
-            var itemsToRemove = Items.Where(existing => !newData.Any(n => n.Id == existing.Id)).ToList();
-            foreach (var item in itemsToRemove)
+            Items.Clear();
+            foreach (var item in newData)
             {
-                Items.Remove(item);
-            }
-
-            foreach (var newItem in newData)
-            {
-                if (Items.All(i => i.Id != newItem.Id))
-                {
-                    Items.Add(newItem);
-                }
+                Items.Add(item);
             }
         }
 

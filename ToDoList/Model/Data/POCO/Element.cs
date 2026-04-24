@@ -5,7 +5,7 @@ namespace ToDoList.Model.Data.POCO
 {
     class Element : BaseViewModel, INumberPossition, IIdentifiable
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public int Number { get; set; }
         private string _thingName = string.Empty;
         public string ThingName
@@ -19,6 +19,6 @@ namespace ToDoList.Model.Data.POCO
         }
         public bool IsDone { get; set; } = false;
         public ListOfItems CollectionOfLists { get; set; } = null!;
-        public Guid CollectionOfListsId { get; set; }
+        public int CollectionOfListsId { get; set; }
     }
 }

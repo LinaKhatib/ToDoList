@@ -2,6 +2,6 @@
 {
     internal interface IIdentifiable
     {
-        Guid Id { get; set; }
+        int Id { get; set; }
     }
 }

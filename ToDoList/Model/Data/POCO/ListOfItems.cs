@@ -5,7 +5,7 @@ namespace ToDoList.Model.Data.POCO
 {
     class ListOfItems : BaseViewModel, INumberPossition, IIdentifiable
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public int Id { get; set; }
          
         private string _collectionName = "Collection";
         public string CollectionName

@@ -14,7 +14,7 @@ namespace ToDoList.ViewModel.WindowViewModels
     internal class ElementsWindowViewModel : AbstractViewModel<Element>
     {
 
-        private readonly Guid _parentId;
+        private readonly int _parentId;
         public ListOfItems ParentList { get; set; }
 
         
@@ -52,7 +52,6 @@ namespace ToDoList.ViewModel.WindowViewModels
             try
             {
                 var newItem = new Element();
-                newItem.Id = Guid.NewGuid();
                 newItem.CollectionOfListsId = _parentId;
 
                 await _repository.AddAsync(newItem);
@@ -96,7 +95,6 @@ namespace ToDoList.ViewModel.WindowViewModels
 
             if (e.PropertyName == nameof(Element.ThingName))
             {
-                _ = UpdateItemAsync();
                 ParentName.UpdateParentNameLogic(Items, ParentList);
             }
         }

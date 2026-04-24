@@ -11,7 +11,7 @@
             int index = 0;
             foreach (var item in collection)
             {
-                item.Number = index++;
+                item.Number = ++index;
             }
         }
     }
