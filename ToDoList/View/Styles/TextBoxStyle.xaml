@@ -22,6 +22,10 @@
                         <Trigger Property="IsFocused" Value="true">
                             <Setter TargetName="border" Property="BorderBrush" Value="Transparent"/>
                         </Trigger>
+
+                        <DataTrigger Binding="{Binding IsDone}" Value="true">
+                            <Setter Property="TextDecorations" Value="Strikethrough"/>
+                        </DataTrigger>
                         
                     </ControlTemplate.Triggers>
                     

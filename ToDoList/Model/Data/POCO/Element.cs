@@ -17,7 +17,16 @@ namespace ToDoList.Model.Data.POCO
                 OnPropertyChanged(nameof(ThingName));
             }
         }
-        public bool IsDone { get; set; } = false;
+        private bool _isDone;
+        public bool IsDone
+        {
+            get => _isDone;
+            set
+            {
+                _isDone = value;
+                OnPropertyChanged(nameof(IsDone));
+            }
+        }
         public ListOfItems CollectionOfLists { get; set; } = null!;
         public int CollectionOfListsId { get; set; }
     }

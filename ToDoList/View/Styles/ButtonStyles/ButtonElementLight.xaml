@@ -16,14 +16,10 @@
                     </Border>
                     
                     <ControlTemplate.Triggers>
-                        
+
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="BorderBrush" Value="#F2D2D2"/>
                             <Setter Property="BorderThickness" Value="3"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#F2D2D2"/>
-                            <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                     
