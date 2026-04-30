@@ -16,8 +16,9 @@ namespace ToDoList.ViewModel.WindowViewModels
 
         private readonly int _parentId;
         public ListOfItems ParentList { get; set; }
+        public ICommand GoBackCommand { get; }
 
-        
+
         public ElementsWindowViewModel(IRepository<Element> repoElement, INavigationService navigationService, ListOfItems parentList) 
             : base (repoElement, navigationService)
         {
@@ -84,8 +85,7 @@ namespace ToDoList.ViewModel.WindowViewModels
                 _dbSemaphore.Release();
             }
         }
-        public ICommand GoBackCommand { get; }
-
+        
         private void GoBackToMainOpenWindow()
         {
             Dispose();

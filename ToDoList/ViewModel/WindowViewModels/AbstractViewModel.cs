@@ -31,7 +31,6 @@ namespace ToDoList.ViewModel.WindowViewModels
             }
         }
 
-
         public ICommand AddCommand { get; }
         public ICommand RemoveCommand { get; }
         public ICommand UpdateCommand { get; }
@@ -43,18 +42,8 @@ namespace ToDoList.ViewModel.WindowViewModels
             _navigationService = navigationService;
 
             AddCommand = new RelayCommand(async (obj) => await AddItemAsync());
-            RemoveCommand = new RelayCommand(async (obj) =>
-            {
-                var itemToRemove = obj as T ?? SelectedItem;
-
-                if (itemToRemove != null)
-                {
-                    await RemoveItemAsync(itemToRemove);
-                }
-            }, CanRemove);
-
+            RemoveCommand = new RelayCommand(async (obj) => await OnRemoveCommandExecuted(obj), CanRemove);
             UpdateCommand = new RelayCommand(async (obj) => await UpdateItemAsync(SelectedItem), CanUpdate);
-
             ExitCommand = new RelayCommand(_ => ExitApplication());
 
             Items.CollectionChanged += ListsOfItems_CollectionChanged;
@@ -73,7 +62,7 @@ namespace ToDoList.ViewModel.WindowViewModels
         public virtual void Dispose()
         {
             Items.CollectionChanged -= ListsOfItems_CollectionChanged;
-
+            
             if (_selectedItem is INotifyPropertyChanged item)
             {
                 item.PropertyChanged -= OnSelectedItemPropertyChanged;
@@ -116,6 +105,15 @@ namespace ToDoList.ViewModel.WindowViewModels
             finally { _dbSemaphore.Release(); }
         }
 
+        protected virtual async Task OnRemoveCommandExecuted(object obj)
+        {
+            var itemToRemove = obj as T ?? SelectedItem;
+
+            if (itemToRemove != null)
+            {
+                await RemoveItemAsync(itemToRemove);
+            }
+        }
 
         protected void UpdateCollection(IEnumerable<T> newData)
         {
@@ -125,9 +123,6 @@ namespace ToDoList.ViewModel.WindowViewModels
                 Items.Add(item);
             }
         }
-
-        
-
 
         protected virtual void ListsOfItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
