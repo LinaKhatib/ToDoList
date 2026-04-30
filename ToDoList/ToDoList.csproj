@@ -10,7 +10,9 @@
 
   <ItemGroup>
     <None Remove="View\Images\Back.png" />
-    <None Remove="View\Images\Menu.png" />
+    <None Remove="View\Images\ClosingCross.png" />
+    <None Remove="View\Images\CrossDark.png" />
+    <None Remove="View\Images\CrossLight.png" />
     <None Remove="View\Images\Plus.png" />
     <None Remove="View\Images\SeparatorDark.png" />
     <None Remove="View\Images\SeparatorLight.png" />
@@ -30,7 +32,9 @@
 
   <ItemGroup>
     <Resource Include="View\Images\Back.png" />
-    <Resource Include="View\Images\Menu.png" />
+    <Resource Include="View\Images\ClosingCross.png" />
+    <Resource Include="View\Images\CrossDark.png" />
+    <Resource Include="View\Images\CrossLight.png" />
     <Resource Include="View\Images\Plus.png" />
     <Resource Include="View\Images\SeparatorDark.png" />
     <Resource Include="View\Images\SeparatorLight.png" />

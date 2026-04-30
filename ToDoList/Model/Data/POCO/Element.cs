@@ -8,6 +8,7 @@ namespace ToDoList.Model.Data.POCO
         public int Id { get; set; }
         public int Number { get; set; }
         private string _thingName = string.Empty;
+
         public string ThingName
         {
             get => _thingName;
@@ -27,6 +28,7 @@ namespace ToDoList.Model.Data.POCO
                 OnPropertyChanged(nameof(IsDone));
             }
         }
+
         public ListOfItems CollectionOfLists { get; set; } = null!;
         public int CollectionOfListsId { get; set; }
     }

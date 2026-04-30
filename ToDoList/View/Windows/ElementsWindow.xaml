@@ -42,8 +42,9 @@
                 <TextBox Grid.Column="1" Text="{Binding ParentList.CollectionName2, UpdateSourceTrigger=PropertyChanged}" 
                          Style="{StaticResource TextBox1}"
                          HorizontalAlignment="Center" Foreground="#966B6B"/>
-                <Button Grid.Column="2" Style="{StaticResource ButtonControlAndNavigation}">
-                    <Image Source="/View/Images/Menu.png"/>
+                <Button Grid.Column="2" Style="{StaticResource ButtonControlAndNavigation}"
+                        Command="{Binding ExitCommand}">
+                    <Image Source="/View/Images/ClosingCross.png" Width="35" Height="35"/>
                 </Button>
             </Grid>
 

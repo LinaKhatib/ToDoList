@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Input;
 using ToDoList.Model.Data.POCO;
 using ToDoList.Model.Data.Repositories;
@@ -34,7 +35,7 @@ namespace ToDoList.ViewModel.WindowViewModels
         public ICommand AddCommand { get; }
         public ICommand RemoveCommand { get; }
         public ICommand UpdateCommand { get; }
-
+        public ICommand ExitCommand { get; }
 
         protected AbstractViewModel(IRepository<T> repository, INavigationService navigationService)
         {
@@ -42,14 +43,32 @@ namespace ToDoList.ViewModel.WindowViewModels
             _navigationService = navigationService;
 
             AddCommand = new RelayCommand(async (obj) => await AddItemAsync());
-            RemoveCommand = new RelayCommand(async (obj) => await RemoveItemAsync(), CanRemove);
+            RemoveCommand = new RelayCommand(async (obj) =>
+            {
+                var itemToRemove = obj as T ?? SelectedItem;
+
+                if (itemToRemove != null)
+                {
+                    await RemoveItemAsync(itemToRemove);
+                }
+            }, CanRemove);
+
             UpdateCommand = new RelayCommand(async (obj) => await UpdateItemAsync(SelectedItem), CanUpdate);
+
+            ExitCommand = new RelayCommand(_ => ExitApplication());
 
             Items.CollectionChanged += ListsOfItems_CollectionChanged;
 
             _ = LoadDataAsync();
         }
 
+        protected virtual bool CanRemove(object obj) => obj != null || SelectedItem != null;
+        protected virtual bool CanUpdate(object obj) => SelectedItem != null;
+
+        private void ExitApplication()
+        {
+            Application.Current.Shutdown();
+        }
 
         public virtual void Dispose()
         {
@@ -77,13 +96,13 @@ namespace ToDoList.ViewModel.WindowViewModels
             Items.Add(newItem);
         }
 
-        protected virtual async Task RemoveItemAsync()
+        protected virtual async Task RemoveItemAsync(T item)
         {
-            if (SelectedItem != null)
+            if (item != null)
             {
-                await _repository.DeleteAsync(SelectedItem);
+                await _repository.DeleteAsync(item);
 
-                Items.Remove(SelectedItem);
+                Items.Remove(item);
             }
         }
         
@@ -107,12 +126,12 @@ namespace ToDoList.ViewModel.WindowViewModels
             }
         }
 
-        protected virtual bool CanRemove(object obj) => SelectedItem != null;
-        protected virtual bool CanUpdate(object obj) => SelectedItem != null;
+        
 
 
         protected virtual void ListsOfItems_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+
             if (_isSorting) return;
 
             if (e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove)

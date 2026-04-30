@@ -1,6 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 using ToDoList.Model.Data.POCO;
 using ToDoList.Model.Data.Repositories;
@@ -14,7 +12,6 @@ namespace ToDoList.ViewModel.WindowViewModels
             : base(repoListOfItems, navigationService)
         {
             OpenElementCommand = new RelayCommand<ListOfItems>(OpenElement);
-            ExitCommand = new RelayCommand(_ => ExitApplication());
         }
 
         protected override async Task AddItemAsync()
@@ -28,7 +25,7 @@ namespace ToDoList.ViewModel.WindowViewModels
         }
 
         public ICommand OpenElementCommand { get; }
-        public ICommand ExitCommand { get; }
+        
 
         public void OpenElement(ListOfItems SelectedItem)
         {
@@ -38,10 +35,6 @@ namespace ToDoList.ViewModel.WindowViewModels
             }
         }
 
-        private void ExitApplication()
-        {
-            Application.Current.Shutdown();
-        }
         public void ClearSelection()
         {
             SelectedItem = null;

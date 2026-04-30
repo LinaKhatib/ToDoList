@@ -17,7 +17,8 @@
                 <ResourceDictionary Source="/View/Styles/DataTemplate/DataTemplateElement/DataTemplateDarkElement.xaml"/>
                 <ResourceDictionary Source="/View/Styles/DataTemplate/DataTemplateElement/DataTemplateLightElement.xaml"/>
                 <ResourceDictionary Source="/View/Styles/CheckBoxStyles/CheckBoxElementDark.xaml"/>
-                <ResourceDictionary Source="/View/Styles/CheckBoxStyles/CheckBoxElementLight.xaml"/> 
+                <ResourceDictionary Source="/View/Styles/CheckBoxStyles/CheckBoxElementLight.xaml"/>
+                <ResourceDictionary Source="/View/Styles/ButtonStyles/ButtonDelete.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -33,12 +33,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="100"/>
                 </Grid.ColumnDefinitions>
-                <Button Style="{StaticResource ButtonControlAndNavigation}" 
+                <Button Grid.Column="2" Style="{StaticResource ButtonControlAndNavigation}"
                         Command="{Binding ExitCommand}">
-                    <Image Source="/View/Images/Back.png"/>
-                </Button>
-                <Button Grid.Column="2" Style="{StaticResource ButtonControlAndNavigation}">
-                    <Image Source="/View/Images/Menu.png"/>
+                    <Image Source="/View/Images/ClosingCross.png" Width="35" Height="35"/>
                 </Button>
             </Grid>
 

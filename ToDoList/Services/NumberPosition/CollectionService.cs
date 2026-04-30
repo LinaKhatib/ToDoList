@@ -8,10 +8,10 @@
     {
         public static void ReorderNumbers<T>(IEnumerable<T> collection) where T : INumberPossition
         {
-            int index = 0;
+            int index = 1;
             foreach (var item in collection)
             {
-                item.Number = ++index;
+                item.Number = index++;
             }
         }
     }
