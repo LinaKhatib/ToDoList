@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using ToDoList.Model.Data.POCO;
 
 namespace ToDoList.Services.ParentNameUpdate

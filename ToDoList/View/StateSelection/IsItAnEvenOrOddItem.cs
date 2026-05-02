@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ToDoList.Services.NumberPosition;
+﻿using ToDoList.Services.NumberPosition;
 
 namespace ToDoList.View.StateSelection
 {

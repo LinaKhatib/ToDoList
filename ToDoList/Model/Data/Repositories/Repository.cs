@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Windows.Controls;
 using ToDoList.Model.Data.DatabaseProvider;
 
 namespace ToDoList.Model.Data.Repositories

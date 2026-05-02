@@ -141,8 +141,6 @@ namespace ToDoList.ViewModel.WindowViewModels
                     Application.Current.Dispatcher.BeginInvoke(new Action(() => {
                         CollectionViewSource.GetDefaultView(Items).Refresh();
                     }), DispatcherPriority.Background);
-
-                    //OnPropertyChanged(nameof(Items));
                 }
                 finally
                 {

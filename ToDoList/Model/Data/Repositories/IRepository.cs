@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
-using System.Windows.Controls;
+﻿using System.Linq.Expressions;
 
 namespace ToDoList.Model.Data.Repositories
 {

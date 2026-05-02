@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using ToDoList.ViewModel;
 
 namespace ToDoList.View.StateSelection
 {

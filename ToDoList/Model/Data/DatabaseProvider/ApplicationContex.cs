@@ -10,7 +10,6 @@ namespace ToDoList.Model.Data.DatabaseProvider
 {
     class ApplicationContex : DbContext  
     {
-        //private readonly string _fileWithDBConnection = "Model/Data/DatabaseProvider/appsettings.json";
         public DbSet<Element> Elements { get; set; } = null!;
         public DbSet<ListOfItems> ListsOfItems { get; set; } = null!;
 
