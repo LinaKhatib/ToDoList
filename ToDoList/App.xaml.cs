@@ -14,15 +14,12 @@ namespace ToDoList
 {
     public partial class App : Application
     {
-       
-
         protected override void OnStartup(StartupEventArgs e)
         {
             var options = GetOptions();
 
             using (var context = new ApplicationContex(options))
             {
-                context.Database.EnsureDeleted(); // Пока в приложении не появится функционал удаления элементов
                 context.Database.EnsureCreated();
             }
 

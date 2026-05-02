@@ -2,7 +2,9 @@
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using ToDoList.Model.Data.POCO;
 using ToDoList.Model.Data.Repositories;
 using ToDoList.Services.Navigation;
@@ -135,13 +137,18 @@ namespace ToDoList.ViewModel.WindowViewModels
                 try
                 {
                     CollectionService.ReorderNumbers<T>(Items);
-                    OnPropertyChanged(nameof(Items));
+
+                    Application.Current.Dispatcher.BeginInvoke(new Action(() => {
+                        CollectionViewSource.GetDefaultView(Items).Refresh();
+                    }), DispatcherPriority.Background);
+
+                    //OnPropertyChanged(nameof(Items));
                 }
                 finally
                 {
                     _isSorting = false;
                 }
-            }
+            } 
 
             if (e.NewItems != null)
             {
