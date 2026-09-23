@@ -2,6 +2,8 @@
 
 Десктопное приложение для управления списками задач, разработанное на стеке **.NET 10** с использованием архитектурного паттерна **MVVM**.
 
+![.NET](https://img.shields.io/badge/.NET-10-purple)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
 ![Release](https://img.shields.io/github/v/release/LinaKhatib/ToDoList)
 ![Build](https://github.com/LinaKhatib/ToDoList/actions/workflows/release.yml/badge.svg)
 
