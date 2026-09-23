@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+          dotnet-quality: 'preview'
+
+      - name: Publish
+        run: >
+          dotnet publish ToDoList/ToDoList.csproj
+          -c Release
+          -r win-x64
+          --self-contained true
+          /p:PublishSingleFile=true
+          /p:IncludeNativeLibrariesForSelfExtract=true
+          -o publish
+
+      - name: Copy appsettings.example.json
+        run: >
+          Copy-Item
+          "ToDoList/Model/Data/DatabaseProvider/appsettings.example.json"
+          "publish/appsettings.example.json"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            publish/ToDoList.exe
+            publish/appsettings.example.json
+          generate_release_notes: true

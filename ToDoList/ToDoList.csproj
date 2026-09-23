@@ -6,6 +6,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+	<PublishSingleFile>true</PublishSingleFile>
+	<SelfContained>true</SelfContained>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
@@ -42,8 +45,15 @@
 
   <ItemGroup>
     <None Update="Model\Data\DatabaseProvider\appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	</None>
+    <None Update="Model\Data\DatabaseProvider\appsettings.example.json">
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </None>
   </ItemGroup>
 
 </Project>
+
